@@ -169,14 +169,22 @@ nav ul {
   align-items: center;
   list-style-type: none;
 }
-nav li {
+nav li /*,
+nav a*/ {
   padding: 0 10px;
   font-size: 1.2em;
 }
 
-li:hover {
+/*nav a:hover,*/
+nav li:hover {
   color: #b1663c;
 }
+
+/* ajout style "mot de passe oublié" dans form log in */
+#contact a {
+  color: #000000;
+}
+
 #introduction {
   display: flex;
   align-items: center;
@@ -207,13 +215,13 @@ li:hover {
   display: flex;
   justify-content: center;
   gap: 15px;
-  margin-bottom: 5%;
+  margin: 5%;
 }
 
 .btnCategories {
   min-width: 100px;
   font-size: 1.3em;
-  padding: 10px 20px;
+  padding: 10px 25px;
   border: 0.1rem solid #1d6154;
   border-radius: 25px;
   background-color: transparent;
