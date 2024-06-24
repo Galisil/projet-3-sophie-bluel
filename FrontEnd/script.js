@@ -1,5 +1,18 @@
-//----------- import { *fonction à importer* } from "./page-login.js"; ?--------//
 document.addEventListener("DOMContentLoaded", async () => {
+    const userId = localStorage.getItem("userId");
+    const btnModifier = document.querySelector(".btnModifier");
+    if (userId === "1") {
+        console.log("youpi");
+        const iconeModifier = document.createElement("img");
+        iconeModifier.src = "./assets/icons/Group.png";
+        iconeModifier.alt = "icône modifier";
+        const textModifier = document.createElement("p");
+        textModifier.textContent = "modifier";
+        if (btnModifier) {
+            btnModifier.appendChild(iconeModifier);
+            btnModifier.appendChild(textModifier);
+        }
+    }
     const reponseWorks = await fetch("http://localhost:5678/api/works");
     const works = await reponseWorks.json();
     function generateWorks(works) {

@@ -164,6 +164,32 @@ h2 {
     font-size: 30px;
     color: #1d6154;
 }
+
+/*ajout css pour btn modifier*/
+
+.projets-modale {
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+    margin-top: 10em;
+    margin-left: 5em;
+}
+
+.btnModifier img {
+    max-width: 1.5em;
+    max-height: 1.5em;
+}
+
+.projets-modale .btnModifier {
+    /*max-width: 60px;*/
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: flex-start;
+    padding-top: 10px;
+    margin-left: 20px;
+}
+
 nav ul {
     display: flex;
     align-items: center;
