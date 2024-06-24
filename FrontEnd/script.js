@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const userId = localStorage.getItem("userId");
     const btnModifier = document.querySelector(".btnModifier");
     if (userId === "1") {
-        console.log("youpi");
+        //apparition bouton modale si admin connecté
         const iconeModifier = document.createElement("img");
         iconeModifier.src = "./assets/icons/Group.png";
         iconeModifier.alt = "icône modifier";
@@ -12,6 +12,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             btnModifier.appendChild(iconeModifier);
             btnModifier.appendChild(textModifier);
         }
+        //bouton login devient bouton logout
+        const btnLoginLogout = document.getElementById("login-logout");
+        btnLoginLogout.text = "Logout";
     }
     const reponseWorks = await fetch("http://localhost:5678/api/works");
     const works = await reponseWorks.json();
@@ -31,70 +34,72 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
     generateWorks(works);
-
-    const reponseCategories = await fetch(
-        "http://localhost:5678/api/categories"
-    );
-    const categories = await reponseCategories.json();
-    /* liste boutons filtres */
-    const btnTous = document.createElement("button");
-    btnTous.innerText = "Tous";
-    btnTous.className = "btnCategories";
-    btnTous.id = "btnTous";
-    const btnObjets = document.createElement("button");
-    btnObjets.innerText = "Objets";
-    btnObjets.className = "btnCategories";
-    btnObjets.id = "btnObjets";
-    const btnAppartements = document.createElement("button");
-    btnAppartements.innerText = "Appartements";
-    btnAppartements.className = "btnCategories";
-    btnAppartements.id = "btnAppartements";
-    const btnHotelsRestaurants = document.createElement("button");
-    btnHotelsRestaurants.innerText = "Hotels & restaurants";
-    btnHotelsRestaurants.className = "btnCategories";
-    btnHotelsRestaurants.id = "btnHotelsRestaurants";
-    /* ajout boutons filtres à la page */
-    let formFilters = document.getElementById("formFilters");
-    formFilters.appendChild(btnTous);
-    formFilters.appendChild(btnObjets);
-    formFilters.appendChild(btnAppartements);
-    formFilters.appendChild(btnHotelsRestaurants);
-    /*bouton Tous cliqué*/
-    btnTous.addEventListener("click", function () {
-        event.preventDefault();
-        const filteredWorks = works.filter(function (works) {
-            return works;
+    //les catégories n'apparaissent pas quand l'admin est connectée
+    if (userId !== "1") {
+        const reponseCategories = await fetch(
+            "http://localhost:5678/api/categories"
+        );
+        const categories = await reponseCategories.json();
+        /* liste boutons filtres */
+        const btnTous = document.createElement("button");
+        btnTous.innerText = "Tous";
+        btnTous.className = "btnCategories";
+        btnTous.id = "btnTous";
+        const btnObjets = document.createElement("button");
+        btnObjets.innerText = "Objets";
+        btnObjets.className = "btnCategories";
+        btnObjets.id = "btnObjets";
+        const btnAppartements = document.createElement("button");
+        btnAppartements.innerText = "Appartements";
+        btnAppartements.className = "btnCategories";
+        btnAppartements.id = "btnAppartements";
+        const btnHotelsRestaurants = document.createElement("button");
+        btnHotelsRestaurants.innerText = "Hotels & restaurants";
+        btnHotelsRestaurants.className = "btnCategories";
+        btnHotelsRestaurants.id = "btnHotelsRestaurants";
+        /* ajout boutons filtres à la page */
+        let formFilters = document.getElementById("formFilters");
+        formFilters.appendChild(btnTous);
+        formFilters.appendChild(btnObjets);
+        formFilters.appendChild(btnAppartements);
+        formFilters.appendChild(btnHotelsRestaurants);
+        /*bouton Tous cliqué*/
+        btnTous.addEventListener("click", function () {
+            event.preventDefault();
+            const filteredWorks = works.filter(function (works) {
+                return works;
+            });
+            document.querySelector(".gallery").innerHTML = "";
+            generateWorks(filteredWorks);
         });
-        document.querySelector(".gallery").innerHTML = "";
-        generateWorks(filteredWorks);
-    });
-    /*bouton objets cliqué*/
-    btnObjets.addEventListener("click", function () {
-        event.preventDefault();
-        const filteredWorks = works.filter(function (works) {
-            return works.category.name === "Objets";
+        /*bouton objets cliqué*/
+        btnObjets.addEventListener("click", function () {
+            event.preventDefault();
+            const filteredWorks = works.filter(function (works) {
+                return works.category.name === "Objets";
+            });
+            document.querySelector(".gallery").innerHTML = "";
+            generateWorks(filteredWorks);
         });
-        document.querySelector(".gallery").innerHTML = "";
-        generateWorks(filteredWorks);
-    });
-    /*bouton Appartements cliqué*/
-    btnAppartements.addEventListener("click", function () {
-        event.preventDefault();
-        const filteredWorks = works.filter(function (works) {
-            return works.category.name === "Appartements";
+        /*bouton Appartements cliqué*/
+        btnAppartements.addEventListener("click", function () {
+            event.preventDefault();
+            const filteredWorks = works.filter(function (works) {
+                return works.category.name === "Appartements";
+            });
+            document.querySelector(".gallery").innerHTML = "";
+            generateWorks(filteredWorks);
         });
-        document.querySelector(".gallery").innerHTML = "";
-        generateWorks(filteredWorks);
-    });
-    /*bouton Hotels et restaurants cliqué*/
-    btnHotelsRestaurants.addEventListener("click", function () {
-        event.preventDefault();
-        const filteredWorks = works.filter(function (works) {
-            return works.category.name === "Hotels & restaurants";
+        /*bouton Hotels et restaurants cliqué*/
+        btnHotelsRestaurants.addEventListener("click", function () {
+            event.preventDefault();
+            const filteredWorks = works.filter(function (works) {
+                return works.category.name === "Hotels & restaurants";
+            });
+            document.querySelector(".gallery").innerHTML = "";
+            generateWorks(filteredWorks);
         });
-        document.querySelector(".gallery").innerHTML = "";
-        generateWorks(filteredWorks);
-    });
+    }
 });
 
 /*            --1ere idée--
