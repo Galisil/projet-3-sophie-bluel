@@ -190,6 +190,78 @@ h2 {
     margin-left: 20px;
 }
 
+.btnModifier a {
+    color: black;
+    text-decoration: none;
+}
+
+/*modale*/
+
+.modal {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /*max-width: calc(100vh -20px);
+    max-height: calc(100vh -20px);*/
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-wrapper {
+    width: 600px;
+    height: 600px;
+    padding: 20px;
+    background-color: white;
+    overflow: auto;
+}
+
+.closeContainer {
+    display: flex;
+    justify-content: flex-end;
+    border: none;
+    background-color: transparent;
+}
+
+.closeContainer:hover,
+.closeContainer:active,
+.btnQuit:hover,
+.btnQuit:active {
+    cursor: pointer;
+}
+
+.modal-wrapper .btnQuit,
+.modal-wrapper .btnQuit:hover,
+.modal-wrapper .btnQuit:active {
+    display: flex;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+}
+
+.wrapper-gallery {
+    height: 70%;
+    margin: 50px;
+    margin-bottom: 0px;
+    border-bottom: 0.2em solid #b3b3b3;
+}
+
+.wrapper-gallery h2 {
+    font-family: "Work sans";
+    color: #000000;
+    font-weight: lighter;
+    font-size: 2em;
+}
+
+.divBtnPostPicture {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
 nav ul {
     display: flex;
     align-items: center;
@@ -256,6 +328,7 @@ nav a:hover {
     margin: 5%;
 }
 
+.btnPostPicture,
 .btnCategories {
     min-width: 100px;
     font-size: 1.3em;
@@ -267,9 +340,11 @@ nav a:hover {
     font-family: "Syne";
 }
 
+.btnPostPicture,
 .btnCategories:hover {
     background-color: #1d6154;
     color: white;
+    cursor: pointer;
 }
 
 /*fin ajout style btns*/

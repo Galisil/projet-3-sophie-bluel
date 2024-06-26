@@ -21,7 +21,9 @@
                     <li>projets</li>
                     <li>contact</li>
                     <li>
-                        <a id="login-logout" href="./page-login.html">login</a>
+                        <a id="btnLoginLogout" href="./page-login.html"
+                            >login</a
+                        >
                     </li>
                     <li>
                         <img
@@ -67,7 +69,51 @@
                             src="./assets/icons/Group.png"
                             alt="icône modifier"
                         />
-                        <p>modifier</p>-->
+                        <a>modifier</>-->
+                        <aside
+                            id="modal1"
+                            class="modal"
+                            aria-hidden="false"
+                            role="dialog"
+                            aria-modal="true"
+                            aria-labelledby="titleModal"
+                            style="display: none"
+                        >
+                            <!-- qd modale finie, rajouter style="display: none" juste au dessus-->
+                            <div class="modal-wrapper">
+                                <div class="closeContainer">
+                                    <button class="btnQuit">
+                                        <img
+                                            src="./assets/icons/croix.svg"
+                                            alt="icône croix"
+                                            class="closeIcon"
+                                        />
+                                    </button>
+                                </div>
+                                <div class="wrapper-gallery">
+                                    <h2 id="titleModal">Galerie photo</h2>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur
+                                        adipiscing elit, sed do eiusmod tempor
+                                        incididunt ut labore et dolore magna
+                                        aliqua. Ut enim ad minim veniam, quis
+                                        nostrud exercitation ullamco laboris
+                                        nisi ut aliquip ex ea commodo consequat.
+                                        Duis aute irure dolor in reprehenderit
+                                        in voluptate velit esse cillum dolore eu
+                                        fugiat nulla pariatur. Excepteur sint
+                                        occaecat cupidatat non proident, sunt in
+                                        culpa qui officia deserunt mollit anim
+                                        id est laborum.
+                                    </p>
+                                </div>
+                                <div class="divBtnPostPicture">
+                                    <button class="btnPostPicture">
+                                        Ajouter une photo
+                                    </button>
+                                </div>
+                            </div>
+                        </aside>
                     </div>
                 </div>
                 <!--boutons à supprimer
@@ -120,6 +166,8 @@
         </footer>
         <script src="script.js"></script>
         <script src="page-login.js"></script>
+        <script src="script-modal.js"></script>
+
         <!--ajout type="module" (?) apres script et avant src si import fonction-->
     </body>
 </html>

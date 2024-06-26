@@ -4,16 +4,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (userId === "1") {
         //apparition bouton modale si admin connecté
         const iconeModifier = document.createElement("img");
-        iconeModifier.src = "./assets/icons/Group.png";
+        iconeModifier.src = "./assets/icons/icone-modifier.svg";
         iconeModifier.alt = "icône modifier";
-        const textModifier = document.createElement("p");
-        textModifier.textContent = "modifier";
+        const linkModal = document.createElement("a");
+        linkModal.href = "#modal1";
+        linkModal.text = "modifier";
+        linkModal.className = "jsModal";
         if (btnModifier) {
             btnModifier.appendChild(iconeModifier);
-            btnModifier.appendChild(textModifier);
+            btnModifier.appendChild(linkModal);
         }
         //bouton login devient bouton logout
-        const btnLoginLogout = document.getElementById("login-logout");
+        const btnLoginLogout = document.getElementById("btnLoginLogout");
         btnLoginLogout.text = "Logout";
     }
     const reponseWorks = await fetch("http://localhost:5678/api/works");
