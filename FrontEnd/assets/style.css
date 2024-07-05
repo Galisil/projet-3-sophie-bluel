@@ -211,17 +211,42 @@ h2 {
     background: rgba(0, 0, 0, 0.5);
 }
 
-.modal-wrapper {
-    width: 600px;
-    height: 600px;
-    padding: 20px;
+#modal-wrapper1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 35%;
+    height: 80%;
+    padding: 40px 30px;
     background-color: white;
     overflow: auto;
+    border-radius: 2%;
 }
 
-.closeContainer {
+#modal-wrapper2 {
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 35%;
+    height: 80%;
+    padding: 40px 30px;
+    background-color: white;
+    overflow: auto;
+    border-radius: 2%;
+}
+
+#modal-wrapper1 .divBtnActionModal {
+    display: flex;
+    flex-direction: row;
     justify-content: flex-end;
+    border: none;
+    background-color: transparent;
+}
+
+#modal-wrapper2 .divBtnActionModal {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     border: none;
     background-color: transparent;
 }
@@ -229,23 +254,39 @@ h2 {
 .closeContainer:hover,
 .closeContainer:active,
 .btnQuit:hover,
-.btnQuit:active {
+.btnQuit:active .btnGoBack,
+.btnGoBack:hover {
     cursor: pointer;
 }
 
-.modal-wrapper .btnQuit,
-.modal-wrapper .btnQuit:hover,
-.modal-wrapper .btnQuit:active {
+.btnQuit,
+.btnQuit:hover,
+.btnQuit:active,
+.btnGoBack,
+.btnGoBack:hover,
+.btnGoBack:active {
     display: flex;
     align-items: center;
     border: none;
     background-color: transparent;
 }
 
-.wrapper-gallery {
+.wrapper-gallery1,
+.wrapper-gallery2 {
     height: 70%;
-    margin: 50px;
-    margin-bottom: 0px;
+    margin: 0px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.formAddPhoto {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.wrapper-gallery1 {
     border-bottom: 0.2em solid #b3b3b3;
 }
 
@@ -253,13 +294,117 @@ h2 {
     font-family: "Work sans";
     color: #000000;
     font-weight: lighter;
-    font-size: 2em;
+    font-size: 3em;
 }
 
-.divBtnPostPicture {
+.titleModal {
+    font-size: 2em;
+    color: black;
+    font-family: "Work Sans";
+    font-weight: lighter;
+    margin-bottom: 20px;
+}
+
+.photosGalleryModal {
+    padding: 40px 0px;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    box-sizing: border-box;
+    row-gap: 30px;
+}
+
+.photosGalleryModal img {
+    min-width: /*18%*/ 76px;
+    max-height: /*102px*/ 102px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.divImgAndSupp {
+    width: 76px;
+    height: 102px;
+}
+
+.btnSupp {
+    transform: scale(0.2);
+    cursor: pointer;
+    position: relative;
+    bottom: 125px;
+    left: 25px;
+
+    border: none;
+    padding: 0px;
+    border-radius: 25px;
+}
+
+.btnPostPhoto {
+    min-width: 100px;
+    font-size: 1.3em;
+    padding: 10px 25px;
+    border: 0.1rem solid #1d6154;
+    border-radius: 25px;
+    background-color: #1d6154;
+    color: white;
+    font-family: "Syne";
+}
+
+/*css pour photo et form 2eme page modale*/
+
+.content2ndPageModal {
+    display: flex;
+    flex-direction: column;
+}
+
+.containerPhoto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    margin-top: 40px;
+    background-color: #e8f1f6;
+    height: 200px;
+    border-radius: 1%;
+    box-sizing: border-box;
+    padding-top: 20px;
+    margin-bottom: 20px;
+}
+
+.containerPhoto img {
+    transform: scale(4);
+}
+
+.btnAddPhoto {
+    /*min-width: 230px;*/
+    font-size: 1em;
+    padding: 10px 25px;
+    border: 0.1rem solid #cbd6dc;
+    border-radius: 25px;
+    background-color: #cbd6dc;
+    color: #306685;
+    font-family: "Work Sans";
+    margin: 40px 0px 20px;
+}
+
+.containerPhoto p {
+    font-family: "Syne";
+    font-size: 0.7em;
+    color: #444444;
+}
+
+.titleAndCategory {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 0.2em solid #b3b3b3;
+    border: none;
+}
+
+.titleAndCategory .inputArea,
+.titleAndCategory .inputArea:hover,
+.titleAndCategory.inputArea:focus {
+    height: 50px;
+    margin: 0.5em 0 1em 0;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
 nav ul {
@@ -319,7 +464,7 @@ nav a:hover {
     margin-bottom: 0.5em;
 }
 
-/*ajout style pour boutons filtres*/
+/*ajout style pour boutons filtres et boutons du bas modale*/
 
 #formFilters {
     display: flex;
@@ -328,7 +473,7 @@ nav a:hover {
     margin: 5%;
 }
 
-.btnPostPicture,
+/*.btnPostPhoto,*/
 .btnCategories {
     min-width: 100px;
     font-size: 1.3em;
@@ -340,10 +485,32 @@ nav a:hover {
     font-family: "Syne";
 }
 
-.btnPostPicture,
+/*.btnPostPhoto,*/
 .btnCategories:hover {
     background-color: #1d6154;
     color: white;
+    cursor: pointer;
+}
+
+/*divbottom modal ne marche paaaaaas :DDDDD*/
+
+.btnBottomModal {
+    display: flex;
+    justify-content: center;
+}
+
+#btnValider {
+    background-color: #a7a7a7;
+    width: 40%;
+    font-size: 1.3em;
+    padding: 10px 25px;
+    border: 0.1rem solid #a7a7a7;
+    border-radius: 25px;
+    font-family: "Syne";
+    color: white;
+}
+
+#btnValider:hover {
     cursor: pointer;
 }
 
@@ -351,7 +518,6 @@ nav a:hover {
 
 #portfolio h2 {
     text-align: center;
-    margin-bottom: 1em;
 }
 .gallery {
     width: 100%;

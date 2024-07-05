@@ -79,9 +79,13 @@
                             aria-labelledby="titleModal"
                             style="display: none"
                         >
-                            <!-- qd modale finie, rajouter style="display: none" juste au dessus-->
-                            <div class="modal-wrapper">
-                                <div class="closeContainer">
+                            <!--première fenêtre modale-->
+                            <div
+                                aria-hidden="true"
+                                id="modal-wrapper1"
+                                class="js-modal-stop"
+                            >
+                                <div class="divBtnActionModal">
                                     <button class="btnQuit">
                                         <img
                                             src="./assets/icons/croix.svg"
@@ -90,27 +94,90 @@
                                         />
                                     </button>
                                 </div>
-                                <div class="wrapper-gallery">
-                                    <h2 id="titleModal">Galerie photo</h2>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur
-                                        adipiscing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna
-                                        aliqua. Ut enim ad minim veniam, quis
-                                        nostrud exercitation ullamco laboris
-                                        nisi ut aliquip ex ea commodo consequat.
-                                        Duis aute irure dolor in reprehenderit
-                                        in voluptate velit esse cillum dolore eu
-                                        fugiat nulla pariatur. Excepteur sint
-                                        occaecat cupidatat non proident, sunt in
-                                        culpa qui officia deserunt mollit anim
-                                        id est laborum.
-                                    </p>
+                                <div class="wrapper-gallery1">
+                                    <h2 class="titleModal">Galerie photo</h2>
+                                    <div class="photosGalleryModal">
+                                        <!--ajout photo via fichier script-modal.js-->
+                                    </div>
                                 </div>
-                                <div class="divBtnPostPicture">
-                                    <button class="btnPostPicture">
+                                <div class="btnBottomModal">
+                                    <button class="btnPostPhoto">
                                         Ajouter une photo
                                     </button>
+                                </div>
+                            </div>
+                            <!--deuxième fenêtre modale-->
+                            <div
+                                aria-hidden="true"
+                                id="modal-wrapper2"
+                                class="js-modal-stop"
+                            >
+                                <div class="divBtnActionModal">
+                                    <button class="btnGoBack">
+                                        <img
+                                            src="./assets/icons/icone-retour.svg"
+                                            alt="icône retour page précédente"
+                                            class="goBackIcon"
+                                        />
+                                    </button>
+                                    <button class="btnQuit">
+                                        <img
+                                            src="./assets/icons/croix.svg"
+                                            alt="icône croix"
+                                            class="closeIcon"
+                                        />
+                                    </button>
+                                </div>
+                                <div class="wrapper-gallery2">
+                                    <h2 class="titleModal">Ajout photo</h2>
+                                    <form class="formAddPhoto">
+                                        <div class="containerPhoto">
+                                            <!--contenu de la div à chacher lorsqu'une photo est ajoutée-->
+                                            <img
+                                                src="./assets/icons/icone-img.svg"
+                                                alt="icône image"
+                                            />
+                                            <button class="btnAddPhoto">
+                                                + Ajouter photo
+                                            </button>
+                                            <p>jpg, png : 4mo max</p>
+                                        </div>
+                                        <div class="titleAndCategory">
+                                            <label for="title">Titre</label>
+                                            <input
+                                                type="text"
+                                                name="title"
+                                                class="inputArea"
+                                            />
+                                            <label for="category"
+                                                >Catégorie</label
+                                            >
+                                            <select
+                                                name="category"
+                                                class="inputArea"
+                                            >
+                                                <optgroup label="">
+                                                    <option value="test 1">
+                                                        test 1
+                                                    </option>
+                                                    <option value="test 2">
+                                                        test 2
+                                                    </option>
+                                                    <option value="test 3">
+                                                        test 3
+                                                    </option>
+                                                    <option value="test 4">
+                                                        test 4
+                                                    </option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                        <input
+                                            type="submit"
+                                            id="btnValider"
+                                            value="Valider"
+                                        />
+                                    </form>
                                 </div>
                             </div>
                         </aside>
