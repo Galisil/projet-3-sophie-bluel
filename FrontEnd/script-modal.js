@@ -6,30 +6,57 @@ async function generatePhotosWorks() {
     const reponseWorks = await fetch("http://localhost:5678/api/works");
     const works = await reponseWorks.json();
     let divGalleryModal = document.querySelector(".photosGalleryModal");
-    divGalleryModal.innerHtml = ""; //nettoyer la div si déjà remplie de photos
+    divGalleryModal.innerHTML = ""; //nettoyer la div si déjà remplie de photos
     for (let i = 0; i < works.length; i++) {
         const imageWork = works[i];
         //création div pour chaque "case" photo work + btn poubelle
         let divImgAndSupp = document.createElement("div");
         divImgAndSupp.className = "divImgAndSupp";
-        //création photos des travaux
+        divImgAndSupp.id = works[i].id;
+        //création d'un attribut catégorie pour chaque photo
+        let category = works[i].category.name;
+        divImgAndSupp.setAttribute("category", category);
+        //
         let photos = document.createElement("img");
         photos.src = imageWork.imageUrl;
         photos.className = "photosWorksGalleryModal";
         //création btn supp pour chaque photo
         let btnSupp = document.createElement("button");
         btnSupp.className = "btnSupp";
+        btnSupp.id = divImgAndSupp.id;
         //ajout icone poubelle pour chaque btn supp
         let iconSupp = document.createElement("img");
         iconSupp.src = "./assets/icons/icone-poubelle.svg";
         iconSupp.alt = "Supprimer la photo";
         btnSupp.appendChild(iconSupp);
+        btnSupp.id; //?
         //ajout de tout le bazar dans la galerie
         divImgAndSupp.appendChild(photos);
         divImgAndSupp.appendChild(btnSupp);
         divGalleryModal.appendChild(divImgAndSupp);
-        console.log(divGalleryModal);
+        // console.log(divGalleryModal); //////////
+        let figureToSupp = null;
+        btnSupp.addEventListener("click", () => {
+            deleteWorks(btnSupp.id, divImgAndSupp /*, figureToSupp, gallery*/);
+            synchroSuppGallery(btnSupp.id, figureToSupp);
+        });
     }
+}
+
+//fonction pour synchroniser la suppression des travaux en dehors de la modale
+async function synchroSuppGallery(btnSuppId, figureToSupp) {
+    const gallery = document.querySelector(".gallery");
+    const allFigures = gallery.querySelectorAll("figure");
+    figureToSupp = null;
+    for (let i = 0; i < allFigures.length; i++) {
+        let figure = allFigures[i];
+        if (figure.id === btnSuppId) {
+            figureToSupp = figure;
+            break;
+        }
+    }
+    console.log(figureToSupp);
+    gallery.removeChild(figureToSupp);
 }
 
 async function openModal(event) {
@@ -82,11 +109,37 @@ function openSecondPage(event) {
     }
 }*/
 
+async function deleteWorks(
+    toto,
+    divImgAndSupp,
+    figureToSupp /*, figureToSupp, gallery*/
+) {
+    /*const gallery = document.querySelector(".gallery");
+    const figure = gallery.querySelectorAll("figure");
+    figure.id = toto;*/
+    const token = localStorage.getItem("token");
+    const result = await fetch("http://localhost:5678/api/works/" + toto, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token
+        }
+    });
+    console.log(toto);
+    if (!result.ok) {
+        console.log("erreur!!!");
+    } else {
+        //console.log(divImgAndSupp);
+        divImgAndSupp.remove();
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const open = document.querySelector(".jsModal");
     const btnQuit = document.querySelectorAll(".btnQuit");
     const btnPostPhoto = document.querySelector(".btnPostPhoto");
     const btnGoBack = document.querySelector(".btnGoBack");
+    let btnSupp = document.querySelectorAll(".btnSupp");
     if (open) {
         open.addEventListener("click", openModal);
     }
@@ -109,5 +162,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-/*pour fonction supprimer photo quand click poubelle : if machin truc add eventlistener "click" 
---> icone.poubelle.removeparent(photo)?? ou supprimer plutot la divImgAndSupp concernée ?*/
+/*
+Pour restaurer travaux suprimés dans la base de données (supp travaux dans la modale):
+fermer le terminal Node (ctrl + C)
+ouvrir terminal classique (powershell)
+entrer commande: git status
+entrer commmande: git restore + le nom du fichier modifié (backend, sqlite)
+*/

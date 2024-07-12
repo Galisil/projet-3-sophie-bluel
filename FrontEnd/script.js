@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         for (let i = 0; i < works.length; i++) {
             const exemple = works[i];
             let figure = document.createElement("figure");
+            figure.id = works[i].id;
             let imageWork = document.createElement("img");
             imageWork.src = exemple.imageUrl;
             let nameWork = document.createElement("figcaption");
@@ -33,6 +34,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             sectionGallery.appendChild(figure);
             figure.appendChild(imageWork);
             figure.appendChild(nameWork);
+            /*btnSupp.addEventListener("click", () => {
+                deleteWorks(btnSupp.id, divImgAndSupp);
+            });*/
         }
     }
     generateWorks(works);
