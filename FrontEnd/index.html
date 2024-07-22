@@ -128,19 +128,42 @@
                                         />
                                     </button>
                                 </div>
+                                <h2 class="titleModal">Ajout photo</h2>
                                 <div class="wrapper-gallery2">
-                                    <h2 class="titleModal">Ajout photo</h2>
-                                    <form class="formAddPhoto">
+                                    <form
+                                        id="formAddWork"
+                                        enctype="multipart/form-data"
+                                        method="post"
+                                        name="fileinfo"
+                                    >
                                         <div class="containerPhoto">
                                             <!--contenu de la div à chacher lorsqu'une photo est ajoutée-->
                                             <img
                                                 src="./assets/icons/icone-img.svg"
                                                 alt="icône image"
+                                                id="iconeImage"
                                             />
-                                            <button class="btnAddPhoto">
+                                            <label
+                                                for="fileUpload"
+                                                class="custom-file-upload"
+                                            >
                                                 + Ajouter photo
-                                            </button>
+                                            </label>
+                                            <input
+                                                type="file"
+                                                name="image"
+                                                class="inputArea"
+                                                id="fileUpload"
+                                                accept="image/jpg, image/png"
+                                                required
+                                            />
                                             <p>jpg, png : 4mo max</p>
+                                            <img
+                                                src=""
+                                                alt="image sélectionnée"
+                                                id="selectedImg"
+                                                style="display: none"
+                                            />
                                         </div>
                                         <div class="titleAndCategory">
                                             <label for="title">Titre</label>
@@ -148,6 +171,8 @@
                                                 type="text"
                                                 name="title"
                                                 class="inputArea"
+                                                id="addPhotoTitleInput"
+                                                required
                                             />
                                             <label for="category"
                                                 >Catégorie</label
@@ -155,19 +180,34 @@
                                             <select
                                                 name="category"
                                                 class="inputArea"
+                                                id="addPhotoCategoryInput"
+                                                required
                                             >
                                                 <optgroup label="">
-                                                    <option value="test 1">
-                                                        test 1
+                                                    <option
+                                                        value="null"
+                                                        style="display: none"
+                                                    ></option>
+                                                    <option
+                                                        value="1"
+                                                        name="Objets"
+                                                        id="1"
+                                                    >
+                                                        Objets
                                                     </option>
-                                                    <option value="test 2">
-                                                        test 2
+                                                    <option
+                                                        value="2"
+                                                        name="Appartements"
+                                                        id="2"
+                                                    >
+                                                        Appartements
                                                     </option>
-                                                    <option value="test 3">
-                                                        test 3
-                                                    </option>
-                                                    <option value="test 4">
-                                                        test 4
+                                                    <option
+                                                        value="3"
+                                                        name="Hotels & restaurants"
+                                                        id="3"
+                                                    >
+                                                        Hotels & restaurants
                                                     </option>
                                                 </optgroup>
                                             </select>
@@ -178,6 +218,7 @@
                                             value="Valider"
                                         />
                                     </form>
+                                    <p id="log"></p>
                                 </div>
                             </div>
                         </aside>
@@ -232,7 +273,6 @@
             </nav>
         </footer>
         <script src="script.js"></script>
-        <script src="page-login.js"></script>
         <script src="script-modal.js"></script>
 
         <!--ajout type="module" (?) apres script et avant src si import fonction-->

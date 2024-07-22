@@ -175,7 +175,7 @@ h2 {
     margin-left: 5em;
 }
 
-.btnModifier img {
+.photosWorksGalleryModal {
     max-width: 1.5em;
     max-height: 1.5em;
 }
@@ -188,6 +188,7 @@ h2 {
     align-items: flex-start;
     padding-top: 10px;
     margin-left: 20px;
+    /*cursor: pointer;*/
 }
 
 .btnModifier a {
@@ -278,9 +279,10 @@ h2 {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding-bottom: 40px;
 }
 
-.formAddPhoto {
+#formAddWork {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -347,6 +349,7 @@ h2 {
     background-color: #1d6154;
     color: white;
     font-family: "Syne";
+    cursor: pointer;
 }
 
 /*css pour photo et form 2eme page modale*/
@@ -365,15 +368,22 @@ h2 {
     height: 200px;
     border-radius: 1%;
     box-sizing: border-box;
-    padding-top: 20px;
     margin-bottom: 20px;
 }
 
-.containerPhoto img {
-    transform: scale(4);
+.containerPhoto #iconeImage {
+    transform: scale(1);
 }
 
-.btnAddPhoto {
+.containerPhoto #selectedImg {
+    height: 100%;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
     /*min-width: 230px;*/
     font-size: 1em;
     padding: 10px 25px;
@@ -383,6 +393,7 @@ h2 {
     color: #306685;
     font-family: "Work Sans";
     margin: 40px 0px 20px;
+    cursor: pointer;
 }
 
 .containerPhoto p {
@@ -391,11 +402,29 @@ h2 {
     color: #444444;
 }
 
+/*.containerPhoto img,
+.containerPhoto input,
+.containerPhoto p {
+    position: absolute;
+    z-index: 1;
+}
+
+#selectedImg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    box-sizing: border-box;
+    z-index: 2;
+}*/
+
 .titleAndCategory {
     display: flex;
     flex-direction: column;
     border-bottom: 0.2em solid #b3b3b3;
-    border: none;
+    padding-bottom: 20px;
 }
 
 .titleAndCategory .inputArea,

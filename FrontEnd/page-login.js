@@ -5,6 +5,7 @@ async function loginAdmin(email, password) {
         body: JSON.stringify({ email, password })
     });
     if (result.ok) {
+        console.log("toto");
         let { userId, token } = await result.json();
         localStorage.setItem("userId", userId);
         localStorage.setItem("token", token);
@@ -34,6 +35,7 @@ async function loginAdmin(email, password) {
 }
 function authRedirect() {
     window.location = "./index.html";
+    console.log(localStorage.getItem("userId"));
     /* const contentLinkModal = `
     <img src="./FrontEnd/assets/icons/Group.png" alt="icône modifier"/>
     <p>modifier</p>

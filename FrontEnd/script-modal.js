@@ -85,6 +85,7 @@ function stopPropagation(event) {
 
 function closeModal(event) {
     const modal = document.querySelector(".modal");
+    if (event) event.stopPropagation();
     if (modal) {
         modal.style.display = "none";
         modal.setAttribute("aria-hidden", "true");
@@ -137,14 +138,16 @@ async function deleteWorks(
 document.addEventListener("DOMContentLoaded", () => {
     const open = document.querySelector(".jsModal");
     const btnQuit = document.querySelectorAll(".btnQuit");
+    const fileUpload = document.getElementById("fileUpload");
+    const formAddWork = document.getElementById("formAddWork");
     const btnPostPhoto = document.querySelector(".btnPostPhoto");
     const btnGoBack = document.querySelector(".btnGoBack");
     let btnSupp = document.querySelectorAll(".btnSupp");
     if (open) {
         open.addEventListener("click", openModal);
     }
-    btnQuit.forEach((button) => {
-        button.addEventListener("click", closeModal);
+    btnQuit.forEach((btnQuit) => {
+        btnQuit.addEventListener("click", closeModal);
     });
     modal.addEventListener("click", closeModal);
     modalWrapper1.addEventListener("click", stopPropagation);
@@ -155,12 +158,92 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btnGoBack) {
         btnGoBack.addEventListener("click", openModal /* ou backToFirstPage*/);
     }
+    /*if (fileUpload) {
+        fileUpload.addEventListener("change", viewImgSelected);
+    }*/
+    if (formAddWork) {
+        formAddWork.addEventListener("submit", submitForm);
+        console.log(formAddWork);
+    }
+    //formAddWork.addEventListener("submit", logSubmit);
+    const log = document.getElementById("log");
     window.addEventListener("keydown", (event) => {
         if (event.key === "Escape") {
             closeModal();
         }
     });
 });
+/*function logSubmit(event) {
+    log.textContent = `Form Submitted! Timestamp: ${event.timeStamp}`;
+    event.preventDefault();
+}*/
+// photo choisie intégrée sur form modale
+/*function viewImgSelected(event) {
+    const file = event.target.files[0];
+    const fileUpload = document.getElementById("fileUpload");
+    const containerPhoto = document.querySelector(".containerPhoto");
+    if (file) {
+        console.log("truc ajouté: ", file.name);
+        //fileUpload.style.display = "none";
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            //containerPhoto.innerHTML = `<img src="${event.target.result}" id="selectedImg" alt="Selected Image" style="max-width: 100%; style="border: border-box"; height: auto;" />`;
+            let selectedImg = document.getElementById("selectedImg");
+            if (selectedImg) {
+                selectedImg.style = "display:true";
+                selectedImg.src = event.target.result;
+            }
+        };
+        reader.readAsDataURL(file);
+    } else {
+        console.log("no file selected");
+    }
+}
+
+//////
+
+/* */
+async function submitForm(event) {
+    event.preventDefault();
+    const token = localStorage.getItem("token");
+    const formAddWork = document.getElementById("formAddWork");
+    //const selectedImg = document.getElementById("selectedImg");
+    let fileUpload = document.getElementById("fileUpload");
+    let file = fileUpload.files[0];
+    //);
+    const formData = new FormData(formAddWork);
+    console.log(formData.entries());
+    console.log(Array.from(formData.entries()));
+
+    try {
+        const result = await fetch("http://localhost:5678/api/works", {
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + token
+            },
+            body: formData
+        });
+        console.log(formData);
+        //afficher les données du form dans la console
+        for (var key of formData.keys()) {
+            console.log(key);
+        }
+        for (var value of formData.values()) {
+            console.log(value);
+        }
+        /////
+        if (result.ok) {
+            console.log("tout est ok");
+        } else {
+            console.log("jpp");
+        }
+        if (token) {
+            console.log(token);
+        }
+    } catch (error) {
+        console.error("Fetch error:", error);
+    }
+}
 
 /*
 Pour restaurer travaux suprimés dans la base de données (supp travaux dans la modale):
