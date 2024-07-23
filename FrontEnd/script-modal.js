@@ -158,9 +158,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btnGoBack) {
         btnGoBack.addEventListener("click", openModal /* ou backToFirstPage*/);
     }
-    /*if (fileUpload) {
+    if (fileUpload) {
         fileUpload.addEventListener("change", viewImgSelected);
-    }*/
+    }
     if (formAddWork) {
         formAddWork.addEventListener("submit", submitForm);
         console.log(formAddWork);
@@ -178,20 +178,27 @@ document.addEventListener("DOMContentLoaded", () => {
     event.preventDefault();
 }*/
 // photo choisie intégrée sur form modale
-/*function viewImgSelected(event) {
+function viewImgSelected(event) {
     const file = event.target.files[0];
     const fileUpload = document.getElementById("fileUpload");
-    const containerPhoto = document.querySelector(".containerPhoto");
     if (file) {
         console.log("truc ajouté: ", file.name);
-        //fileUpload.style.display = "none";
         const reader = new FileReader();
         reader.onload = function (event) {
-            //containerPhoto.innerHTML = `<img src="${event.target.result}" id="selectedImg" alt="Selected Image" style="max-width: 100%; style="border: border-box"; height: auto;" />`;
-            let selectedImg = document.getElementById("selectedImg");
+            let containerPhoto = document.querySelector(".containerPhoto");
+            let selectedImg = document.getElementById("customTest");
+            let iconeImage = document.getElementById("iconeImage");
+            let textContainerPhoto =
+                document.getElementById("textContainerPhoto");
             if (selectedImg) {
-                selectedImg.style = "display:true";
-                selectedImg.src = event.target.result;
+                iconeImage.style = "display:none";
+                textContainerPhoto.style = "display:none";
+                containerPhoto.style.cssText =
+                    "flex-direction: row; justify-content:center;";
+                selectedImg.style.cssText =
+                    "padding:0px; background-color:transparent; position:absolute; height:100%; margin:auto;";
+                selectedImg.innerHTML = `<img src="${event.target.result}" alt="Selected Image"/>`;
+                console.log(selectedImg);
             }
         };
         reader.readAsDataURL(file);
@@ -234,6 +241,7 @@ async function submitForm(event) {
         /////
         if (result.ok) {
             console.log("tout est ok");
+            synchroAddGallery(figureToAdd);
         } else {
             console.log("jpp");
         }
@@ -243,6 +251,22 @@ async function submitForm(event) {
     } catch (error) {
         console.error("Fetch error:", error);
     }
+}
+
+/*
+async function synchroAddGallery(figureToAdd) {
+    const gallery = document.querySelector(".gallery");
+    const allFigures = gallery.querySelectorAll("figure");
+    figureToAdd = null;
+    for (let i = 0; i < allFigures.length; i++) {
+        let figure = allFigures[i];
+        if (figure.id === btnSuppId) {
+            figureToSupp = figure;
+            break;
+        }
+    }
+    console.log(figureToSupp);
+    gallery.appendChild(figureToAdd);
 }
 
 /*
