@@ -84,6 +84,7 @@ function stopPropagation(event) {
 }
 
 function closeModal(event) {
+    removeImgSelected(event);
     const modal = document.querySelector(".modal");
     if (event) event.stopPropagation();
     if (modal) {
@@ -94,6 +95,7 @@ function closeModal(event) {
 
 function openSecondPage(event) {
     event.preventDefault();
+    console.log(fileUpload);
     if (modal) {
         modalWrapper2.setAttribute("aria-modal", "true");
         modalWrapper1.style.display = "none";
@@ -103,6 +105,7 @@ function openSecondPage(event) {
 
 function backToFirstPage(event) {
     event.preventDefault();
+    removeImgSelected(event);
     if (modal) {
         modalWrapper1.setAttribute("aria-modal", "true");
         modalWrapper2.style.display = "none";
@@ -185,14 +188,14 @@ document.addEventListener("DOMContentLoaded", () => {
 }*/
 // photo choisie intégrée sur form modale
 function viewImgSelected(event) {
-    const file = event.target.files[0];
+    let file = event.target.files[0];
+    let selectedImg = document.getElementById("customTest");
     const fileUpload = document.getElementById("fileUpload");
     if (file) {
         console.log("truc ajouté: ", file.name);
         const reader = new FileReader();
         reader.onload = function (event) {
             let containerPhoto = document.querySelector(".containerPhoto");
-            let selectedImg = document.getElementById("customTest");
             let iconeImage = document.getElementById("iconeImage");
             let textContainerPhoto =
                 document.getElementById("textContainerPhoto");
@@ -205,6 +208,8 @@ function viewImgSelected(event) {
                     "padding:0px; background-color:transparent; position:absolute; height:100%; margin:auto;";
                 selectedImg.innerHTML = `<img src="${event.target.result}" alt="Selected Image"/>`;
                 console.log(selectedImg);
+                console.log(fileUpload);
+                console.log(file);
             }
         };
         reader.readAsDataURL(file);
@@ -214,26 +219,23 @@ function viewImgSelected(event) {
 }
 
 // construction fonction pour nettoyer la div containrer photo quand on quitte la secondemodale
-/*function ReverseViewImgSelected(event) {
-    const file = event.target.files[0];
-    const fileUpload = document.getElementById("fileUpload");
-    if (file) {
-        //const reader = new FileReader();
-        //reader.onload = function (event) {
-        let containerPhoto = document.querySelector(".containerPhoto");
-        let selectedImg = document.getElementById("customTest");
-        let iconeImage = document.getElementById("iconeImage");
-        let textContainerPhoto = document.getElementById("textContainerPhoto");
-        if (selectedImg) {
-            iconeImage.style = "display:inline";
-            textContainerPhoto.style = "display:inline";
-            containerPhoto.style.cssText = "";
-            selectedImg.style.cssText = "";
-            selectedImg.innerHTML = `""`;
-            console.log(selectedImg);
-        }
+function removeImgSelected(event) {
+    let fileUpload = document.getElementById("fileUpload");
+    let selectedImg = document.getElementById("customTest");
+    let containerPhoto = document.querySelector(".containerPhoto");
+    let iconeImage = document.getElementById("iconeImage");
+    let textContainerPhoto = document.getElementById("textContainerPhoto");
+    if (selectedImg !== "+ Ajouter Photo") {
+        iconeImage.style = "display:inline";
+        textContainerPhoto.style = "display:inline";
+        containerPhoto.style.cssText = "";
+        selectedImg.style.cssText = "";
+        selectedImg.innerHTML = `+ Ajouter Photo`;
+        fileUpload.value = "";
+        console.log(fileUpload);
+        console.log(selectedImg);
     }
-}*/
+}
 
 //////
 
