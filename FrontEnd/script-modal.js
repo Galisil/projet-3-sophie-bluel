@@ -84,7 +84,7 @@ function stopPropagation(event) {
 }
 
 function closeModal(event) {
-    removeImgSelected(event);
+    resetForm(event);
     const modal = document.querySelector(".modal");
     if (event) event.stopPropagation();
     if (modal) {
@@ -105,7 +105,7 @@ function openSecondPage(event) {
 
 function backToFirstPage(event) {
     event.preventDefault();
-    removeImgSelected(event);
+    resetForm(event);
     if (modal) {
         modalWrapper1.setAttribute("aria-modal", "true");
         modalWrapper2.style.display = "none";
@@ -219,12 +219,20 @@ function viewImgSelected(event) {
 }
 
 // construction fonction pour nettoyer la div containrer photo quand on quitte la secondemodale
-function removeImgSelected(event) {
+function resetForm(event) {
     let fileUpload = document.getElementById("fileUpload");
+    let addPhotoTitleInput = document.getElementById("addPhotoTitleInput");
+    let addPhotoCategoryInput = document.getElementById(
+        "addPhotoCategoryInput"
+    );
+    let errorMsgAddPhoto = document.getElementById("errorMsgAddPhoto");
     let selectedImg = document.getElementById("customTest");
     let containerPhoto = document.querySelector(".containerPhoto");
     let iconeImage = document.getElementById("iconeImage");
     let textContainerPhoto = document.getElementById("textContainerPhoto");
+    if (errorMsgAddPhoto) {
+        formAddWork.removeChild(errorMsgAddPhoto);
+    }
     if (selectedImg !== "+ Ajouter Photo") {
         iconeImage.style = "display:inline";
         textContainerPhoto.style = "display:inline";
@@ -232,6 +240,8 @@ function removeImgSelected(event) {
         selectedImg.style.cssText = "";
         selectedImg.innerHTML = `+ Ajouter Photo`;
         fileUpload.value = "";
+        addPhotoTitleInput.value = "";
+        addPhotoCategoryInput.value = null;
         console.log(fileUpload);
         console.log(selectedImg);
     }
@@ -284,24 +294,18 @@ async function submitForm(event) {
         } else {
             console.log("jpp");
             let contentMsgError =
-                "Tous les champs doivent être remplis pour pouvoir valider";
+                "Merci de remplir correctement tous les champs du formulaire avant de valider";
             let msgError = document.createElement("p");
             msgError.textContent = contentMsgError;
+            msgError.id = "errorMsgAddPhoto";
             //Supprimer le message d'erreur précédent s'il existe
-            const existingError = formAddWork.querySelector("p.error-message");
+            const existingError = document.getElementById("errorMsgAddPhoto");
             if (existingError) {
                 formAddWork.removeChild(existingError);
-            } else if (
-                //file === null ||
-                addPhotoTitleInput.value === null ||
-                addPhotoCategoryInput.value === null
-            ) {
+            }
+            if (!result.ok) {
                 // Ajout classe "error-message" pour la suppression future
-                msgError.classList.add("error-message");
                 formAddWork.appendChild(msgError);
-                //formAddWork.querySelector("[name=email]").value = "";
-                //formAddWork.querySelector("[name=password]").value = "";
-                //throw new Error("Identifiants incorrects");
             }
         }
         //if (token) {

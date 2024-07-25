@@ -353,6 +353,12 @@ h2 {
     cursor: pointer;
 }
 
+.btnPostPhoto:hover {
+    /*background-color: white;
+    color: #1d6154;*/
+    opacity: 0.5;
+}
+
 /*css pour photo et form 2eme page modale*/
 
 .content2ndPageModal {
@@ -411,6 +417,11 @@ input[type="file"] {
     margin: 0.5em 0 1em 0;
     border: none;
     box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+#errorMsgAddPhoto {
+    color: red;
+    padding: 20px;
 }
 
 nav ul {
@@ -519,6 +530,8 @@ nav a:hover {
 
 #btnValider:hover {
     cursor: pointer;
+    color: #a7a7a7;
+    background-color: white;
 }
 
 /*fin ajout style btns*/
@@ -591,6 +604,11 @@ input[type="submit"] {
     width: 180px;
     text-align: center;
     border-radius: 60px;
+}
+
+input[type="submit"]:hover {
+    opacity: 0.5;
+    cursor: pointer;
 }
 
 footer nav ul {
