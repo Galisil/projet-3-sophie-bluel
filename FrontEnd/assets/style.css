@@ -139,6 +139,7 @@ header {
     justify-content: space-between;
     margin: 50px 0;
 }
+
 section {
     margin: 50px 0;
 }
@@ -227,7 +228,8 @@ h2 {
 #modal-wrapper2 {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 30px;
     width: 35%;
     height: 80%;
     padding: 40px 30px;
@@ -250,6 +252,7 @@ h2 {
     justify-content: space-between;
     border: none;
     background-color: transparent;
+    margin-bottom: 30px;
 }
 
 .closeContainer:hover,
@@ -299,12 +302,20 @@ h2 {
     font-size: 3em;
 }
 
-.titleModal {
+#titleModal1 {
     font-size: 2em;
     color: black;
     font-family: "Work Sans";
     font-weight: lighter;
-    margin-bottom: 20px;
+    /*margin-bottom: 20px;*/
+}
+
+#titleModal2 {
+    font-size: 2em;
+    color: black;
+    font-family: "Work Sans";
+    font-weight: lighter;
+    margin: 30px;
 }
 
 .photosGalleryModal {
@@ -407,7 +418,7 @@ input[type="file"] {
     display: flex;
     flex-direction: column;
     border-bottom: 0.2em solid #b3b3b3;
-    padding-bottom: 20px;
+    padding-bottom: 50px;
 }
 
 .titleAndCategory .inputArea,
@@ -422,6 +433,7 @@ input[type="file"] {
 #errorMsgAddPhoto {
     color: red;
     padding: 20px;
+    height: 20px;
 }
 
 nav ul {
@@ -446,9 +458,13 @@ nav a:visited {
 }
 
 /*nav a:hover,*/
-nav li:hover,
+/*nav li:hover,
+nav a:hover*/
+/*.index #btnLoginLogout:hover,
+.page-login #btnProjets:hover */
 nav a:hover {
     color: #b1663c;
+    cursor: pointer;
 }
 
 /* ajout style "mot de passe oublié" dans form log in */
@@ -601,6 +617,7 @@ input[type="submit"] {
     color: white;
     background-color: #1d6154;
     margin: 2em auto;
+    margin-top: 50px;
     width: 180px;
     text-align: center;
     border-radius: 60px;
@@ -609,6 +626,7 @@ input[type="submit"] {
 input[type="submit"]:hover {
     opacity: 0.5;
     cursor: pointer;
+    margin-top: 50px;
 }
 
 footer nav ul {

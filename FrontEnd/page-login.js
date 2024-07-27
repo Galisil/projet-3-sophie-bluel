@@ -67,3 +67,12 @@ function loginFormSubmit(event) {
 let formFilters = document.getElementById("formFilters");
 const loginForm = document.getElementById("loginForm");
 loginForm.addEventListener("submit", loginFormSubmit);
+
+//let btnLoginLogout = document.getElementById("btnLoginLogout");
+//btnLoginLogout.style.hover = "";
+
+//bouton "projets" fonctionnel pour retourner sur page index
+/*let btnProjets = document.getElementById("btnProjets");
+btnProjets.addEventListener("click", function () {
+    window.location.href = "./index.html";
+});*/
