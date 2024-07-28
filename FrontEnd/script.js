@@ -48,9 +48,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             sectionGallery.appendChild(figure);
             figure.appendChild(imageWork);
             figure.appendChild(nameWork);
-            /*btnSupp.addEventListener("click", () => {
-                deleteWorks(btnSupp.id, divImgAndSupp);
-            });*/
         }
     }
     generateWorks(works);
@@ -65,44 +62,27 @@ document.addEventListener("DOMContentLoaded", async () => {
         btnTous.innerText = "Tous";
         btnTous.className = "btnCategories";
         btnTous.id = "btnTous";
-        // btnObjets.href = "#Tous";
         const btnObjets = document.createElement("button");
         btnObjets.innerText = "Objets";
         btnObjets.className = "btnCategories";
         btnObjets.id = "btnObjets";
-        //btnObjets.href = "#Objets";
         const btnAppartements = document.createElement("button");
         btnAppartements.innerText = "Appartements";
         btnAppartements.className = "btnCategories";
         btnAppartements.id = "btnAppartements";
-        //btnObjets.href = "#Appartements";
         const btnHotelsRestaurants = document.createElement("button");
         btnHotelsRestaurants.innerText = "Hotels & restaurants";
         btnHotelsRestaurants.className = "btnCategories";
         btnHotelsRestaurants.id = "btnHotelsRestaurants";
-        //btnObjets.href = "#Hotels&restaurants";
         /* ajout boutons filtres à la page */
         let formFilters = document.getElementById("formFilters");
         formFilters.appendChild(btnTous);
         formFilters.appendChild(btnObjets);
         formFilters.appendChild(btnAppartements);
         formFilters.appendChild(btnHotelsRestaurants);
-
-        /*function filterAndDisplayWorks(categoryName) {
-            let filteredWorks;
-            if (categoryName === "Tous") {
-                filteredWorks = works;
-            } else {
-                filteredWorks = works.filter(function (work) {
-                    return work.category.name === categoryName;
-                });
-            }
-        }*/
         /*bouton Tous cliqué*/
         btnTous.addEventListener("click", function () {
             event.preventDefault();
-            //window.location.hash = "Tous";
-            //filterAndDisplayWorks("Tous");
             const filteredWorks = works.filter(function (works) {
                 return works;
             });
@@ -112,8 +92,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         /*bouton objets cliqué*/
         btnObjets.addEventListener("click", function () {
             event.preventDefault();
-            // window.location.hash = "#Objets";
-            //filterAndDisplayWorks("Objets");
             const filteredWorks = works.filter(function (works) {
                 return works.category.name === "Objets";
             });
@@ -123,8 +101,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         /*bouton Appartements cliqué*/
         btnAppartements.addEventListener("click", function () {
             event.preventDefault();
-            // window.location.hash = "Appartements";
-            //filterAndDisplayWorks("Appartements");
             const filteredWorks = works.filter(function (works) {
                 return works.category.name === "Appartements";
             });
@@ -134,8 +110,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         /*bouton Hotels et restaurants cliqué*/
         btnHotelsRestaurants.addEventListener("click", function () {
             event.preventDefault();
-            //window.location.hash = "Hotels&restaurants";
-            //filterAndDisplayWorks("Hotels&restaurants");
             const filteredWorks = works.filter(function (works) {
                 return works.category.name === "Hotels & restaurants";
             });
@@ -143,35 +117,4 @@ document.addEventListener("DOMContentLoaded", async () => {
             generateWorks(filteredWorks);
         });
     }
-
-    /*window.addEventListener("load", () => {
-        if (window.location.hash === "Objets") {
-            const filteredWorks = works.filter(function (works) {
-                return works.category.name === "Objets";
-            });
-            generateWorks(filteredWorks);
-        }
-    });*/
 });
-
-/*            --1ere idée--
-  const reponseCategories = await fetch("http://localhost:5678/api/categories");
-  const categories = await reponseCategories.json();
-  let filters = `
-<button class="categoriesBtns">${"Tous"}</button>
-<button class="categoriesBtns">${categories[0].name}</button>
-<button class="categoriesBtns">${categories[1].name}</button>
-<button class="categoriesBtns">${categories[2].name}</button>
-`; 
-
-  let formFilters = document.getElementById("formFilters");
-  formFilters.innerHTML = filters; */
-
-/*let categoriesBtns = divFilters.querySelectorAll(".categoriesBtns");
-  categoriesBtns.addEventListener("click", function () {
-    let filteredWorks = works.filter(function (works) {
-      if categories[i].name === works.name
-      return works.name === categories.name;
-    });
-  });
-*/

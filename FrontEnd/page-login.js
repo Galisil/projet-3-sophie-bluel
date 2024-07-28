@@ -9,11 +9,6 @@ async function loginAdmin(email, password) {
         let { userId, token } = await result.json();
         localStorage.setItem("userId", userId);
         localStorage.setItem("token", token);
-        /*let formFilters = document.getElementById("formFilters");
-        formFilters.removeChild(btnTous);
-        formFilters.removeChild(btnObjets);
-        formFilters.removeChild(btnAppartements);
-        formFilters.removeChild(btnHotelsRestaurants);*/
     } else {
         let contentMsgError =
             "La saisie de l'email ou du mot de passe est incorrecte.";
@@ -36,25 +31,6 @@ async function loginAdmin(email, password) {
 function authRedirect() {
     window.location = "./index.html";
     console.log(localStorage.getItem("userId"));
-    /* const contentLinkModal = `
-    <img src="./FrontEnd/assets/icons/Group.png" alt="icône modifier"/>
-    <p>modifier</p>
-    `;
-    const linkModal = document.querySelector(".projets-modale");
-    linkModal.innerHTML = contentLinkModal;
-    console.log(linkModal);*/
-    //////
-    /*const iconeModifier = document.createElement(
-        "img"[
-            ((src = "./FrontEnd/assets/icons/Group.png"),
-            (alt = "icône modifier"))
-        ]
-    );
-    const textModifier = document.createElement("p");
-    textModifier.textContent = "modifier";
-    const linkModal = document.querySelector(".projets-modale");
-    linkModal.appendChild = iconeModifier;
-    linkModal.appendChild = textModifier;*/
 }
 function loginFormSubmit(event) {
     event.preventDefault();
@@ -67,12 +43,3 @@ function loginFormSubmit(event) {
 let formFilters = document.getElementById("formFilters");
 const loginForm = document.getElementById("loginForm");
 loginForm.addEventListener("submit", loginFormSubmit);
-
-//let btnLoginLogout = document.getElementById("btnLoginLogout");
-//btnLoginLogout.style.hover = "";
-
-//bouton "projets" fonctionnel pour retourner sur page index
-/*let btnProjets = document.getElementById("btnProjets");
-btnProjets.addEventListener("click", function () {
-    window.location.href = "./index.html";
-});*/

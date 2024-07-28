@@ -29,15 +29,13 @@ async function generatePhotosWorks() {
         iconSupp.src = "./assets/icons/icone-poubelle.svg";
         iconSupp.alt = "Supprimer la photo";
         btnSupp.appendChild(iconSupp);
-        btnSupp.id; //?
         //ajout de tout le bazar dans la galerie
         divImgAndSupp.appendChild(photos);
         divImgAndSupp.appendChild(btnSupp);
         divGalleryModal.appendChild(divImgAndSupp);
-        // console.log(divGalleryModal); //////////
         let figureToSupp = null;
         btnSupp.addEventListener("click", () => {
-            deleteWorks(btnSupp.id, divImgAndSupp /*, figureToSupp, gallery*/);
+            deleteWorks(btnSupp.id, divImgAndSupp);
             synchroSuppGallery(btnSupp.id, figureToSupp);
         });
     }
@@ -47,7 +45,6 @@ async function generatePhotosWorks() {
 async function synchroSuppGallery(btnSuppId, figureToSupp) {
     const gallery = document.querySelector(".gallery");
     const allFigures = gallery.querySelectorAll("figure");
-    //figureToSupp = null;
     for (let i = 0; i < allFigures.length; i++) {
         let figure = allFigures[i];
         if (figure.id === btnSuppId) {
@@ -55,7 +52,6 @@ async function synchroSuppGallery(btnSuppId, figureToSupp) {
             break;
         }
     }
-    console.log(figureToSupp);
     gallery.removeChild(figureToSupp);
 }
 
@@ -113,14 +109,7 @@ function backToFirstPage(event) {
     }
 }
 
-async function deleteWorks(
-    toto,
-    divImgAndSupp /*, figureToSupp, gallery*/
-    /*figureToSupp*/
-) {
-    /*const gallery = document.querySelector(".gallery");
-    const figure = gallery.querySelectorAll("figure");
-    figure.id = toto;*/
+async function deleteWorks(toto, divImgAndSupp) {
     const token = localStorage.getItem("token");
     const result = await fetch("http://localhost:5678/api/works/" + toto, {
         method: "DELETE",
@@ -129,11 +118,9 @@ async function deleteWorks(
             Authorization: "Bearer " + token
         }
     });
-    console.log(toto);
     if (!result.ok) {
         console.log("erreur!!!");
     } else {
-        //console.log(divImgAndSupp);
         divImgAndSupp.remove();
     }
 }
@@ -156,11 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modalWrapper1.addEventListener("click", stopPropagation);
     modalWrapper2.addEventListener("click", stopPropagation);
     if (btnPostPhoto) {
-        btnPostPhoto.addEventListener(
-            "click",
-            //ReverseViewImgSelected,
-            openSecondPage
-        );
+        btnPostPhoto.addEventListener("click", openSecondPage);
     }
     if (btnGoBack) {
         btnGoBack.addEventListener("click", backToFirstPage);
@@ -171,10 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let figureToAdd = null;
     if (formAddWork) {
         formAddWork.addEventListener("submit", submitForm);
-        //synchroAddGallery(figureToAdd);
-        console.log(formAddWork);
     }
-    //formAddWork.addEventListener("submit", logSubmit);
     const log = document.getElementById("log");
     window.addEventListener("keydown", (event) => {
         if (event.key === "Escape") {
@@ -182,11 +162,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
-/*function logSubmit(event) {
-    log.textContent = `Form Submitted! Timestamp: ${event.timeStamp}`;
-    event.preventDefault();
-}*/
-// photo choisie intégrée sur form modale
 function viewImgSelected(event) {
     let file = event.target.files[0];
     let selectedImg = document.getElementById("customTest");
@@ -207,9 +182,6 @@ function viewImgSelected(event) {
                 selectedImg.style.cssText =
                     "padding:0px; background-color:transparent; position:absolute; height:100%; margin:auto;";
                 selectedImg.innerHTML = `<img src="${event.target.result}" alt="Selected Image"/>`;
-                console.log(selectedImg);
-                console.log(fileUpload);
-                console.log(file);
             }
         };
         reader.readAsDataURL(file);
@@ -242,19 +214,13 @@ function resetForm(event) {
         fileUpload.value = "";
         addPhotoTitleInput.value = "";
         addPhotoCategoryInput.value = null;
-        console.log(fileUpload);
-        console.log(selectedImg);
     }
 }
 
-//////
-
-/* */
 async function submitForm(event) {
     event.preventDefault();
     const token = localStorage.getItem("token");
     const formAddWork = document.getElementById("formAddWork");
-    //const selectedImg = document.getElementById("selectedImg");
     let fileUpload = document.getElementById("fileUpload");
     let file = fileUpload.files[0];
     let figureToAdd = null;
@@ -262,7 +228,6 @@ async function submitForm(event) {
     let addPhotoCategoryInput = document.getElementById(
         "addPhotoCategoryInput"
     );
-    //);
     const formData = new FormData(formAddWork);
     console.log(formData.entries());
     console.log(Array.from(formData.entries()));
@@ -283,16 +248,13 @@ async function submitForm(event) {
         for (var value of formData.values()) {
             console.log(value);
         }
-        /////
         if (result.ok) {
             console.log("tout est ok");
             const figureToAdd = await result.json();
             synchroAddGallery(figureToAdd);
             synchroAddGalleryModal(figureToAdd);
             backToFirstPage(event);
-            console.log(figureToAdd);
         } else {
-            console.log("jpp");
             let contentMsgError =
                 "Merci de remplir correctement tous les champs du formulaire avant de valider";
             let msgError = document.createElement("p");
@@ -304,13 +266,9 @@ async function submitForm(event) {
                 formAddWork.removeChild(existingError);
             }
             if (!result.ok) {
-                // Ajout classe "error-message" pour la suppression future
                 formAddWork.appendChild(msgError);
             }
         }
-        //if (token) {
-        //console.log(token);
-        //}
     } catch (error) {
         console.error("Fetch error:", error);
     }
@@ -328,8 +286,6 @@ async function synchroAddGallery(figureToAdd) {
     newFigure.appendChild(imageWork);
     newFigure.appendChild(nameWork);
     gallery.appendChild(newFigure);
-    //ce qui reste à faire gnagnagna
-    //photosGalleryModal.appendChild(newFigure);
 }
 
 async function synchroAddGalleryModal(figureToAdd) {
@@ -338,11 +294,7 @@ async function synchroAddGalleryModal(figureToAdd) {
     let figure = document.querySelectorAll(".figure");
     let divImgAndSupp = document.createElement("div");
     divImgAndSupp.className = "divImgAndSupp";
-    divImgAndSupp.id = /*works[0]*/ figureToAdd.id;
-    //création d'un attribut catégorie pour chaque photo
-    //let category = works[i].category.name;
-    //divImgAndSupp.setAttribute("category", category);
-    //
+    divImgAndSupp.id = figureToAdd.id;
     let photos = document.createElement("img");
     photos.src = figureToAdd.imageUrl;
     photos.className = "photosWorksGalleryModal";
@@ -362,43 +314,9 @@ async function synchroAddGalleryModal(figureToAdd) {
     divGalleryModal.appendChild(divImgAndSupp);
     btnSupp.addEventListener("click", () => {
         synchroSuppGallery(btnSupp.id, figure);
-        deleteWorks(btnSupp.id, divImgAndSupp /*, figureToSupp, gallery*/);
+        deleteWorks(btnSupp.id, divImgAndSupp);
     });
 }
-
-/*async function synchroAddGallery(figureToAdd) {
-    const reponseWorks = await fetch("http://localhost:5678/api/works");
-    const works = await reponseWorks.json();
-    let gallery = document.querySelector(".gallery");
-    let allFigures = gallery.querySelectorAll("figure");
-    for (let i = 0; i < allFigures.length; i++) {
-        let exemple = works[i];
-        figureToAdd = document.createElement("figure");
-        //newFigure.id = works[i].id;
-        let imageWork = document.createElement("img");
-        imageWork.src = exemple.imageUrl;
-        let nameWork = document.createElement("figcaption");
-        nameWork.innerText = exemple.title;
-        //figureToAdd = null;
-        let maxId = allFigures.length;
-        console.log(allFigures);
-        console.log(maxId);
-        let figure = allFigures[i];
-        if (figure.id < maxId) {
-            figureToAdd = figure;
-            break;
-        }
-        figureToAdd.appendChild(imageWork);
-        figureToAdd.appendChild(nameWork);
-        gallery.appendChild(figureToAdd);
-    }
-    console.log(figureToAdd);
-}
-
-
-///////
-{id: 19, title: 'ezezdsdezezd', imageUrl: 'http://localhost:5678/images/malt-and-juniper-NY1721827816725.png', categoryId: '3', userId: 1}
-///////
 
 /*
 Pour restaurer travaux suprimés dans la base de données (supp travaux dans la modale):

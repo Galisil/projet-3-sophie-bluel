@@ -65,11 +65,6 @@
                 <div class="projets-modale">
                     <h2>Mes Projets</h2>
                     <div class="btnModifier">
-                        <!--<img
-                            src="./assets/icons/Group.png"
-                            alt="icône modifier"
-                        />
-                        <a>modifier</>-->
                         <aside
                             id="modal1"
                             class="modal"
@@ -156,26 +151,23 @@
                                                 class="inputArea"
                                                 id="fileUpload"
                                                 accept="image/jpg, image/png"
+                                                autocomplete="off"
                                             />
                                             <p id="textContainerPhoto">
                                                 jpg, png : 4mo max
                                             </p>
-                                            <!--      <img
-                                                src=""
-                                                alt="image sélectionnée"
-                                                id="selectedImg"
-                                                style="display: none"
-                                            /> -->
                                         </div>
                                         <div class="titleAndCategory">
-                                            <label for="title">Titre</label>
+                                            <label for="addPhotoTitleInput"
+                                                >Titre</label
+                                            >
                                             <input
                                                 type="text"
                                                 name="title"
                                                 class="inputArea"
                                                 id="addPhotoTitleInput"
                                             />
-                                            <label for="category"
+                                            <label for="addPhotoCategoryInput"
                                                 >Catégorie</label
                                             >
                                             <select
@@ -225,16 +217,8 @@
                         </aside>
                     </div>
                 </div>
-                <!--boutons à supprimer
-        <section class="sectionFilters">
-          <button class="categoriesBtns">Tous</button>
-          <button class="categoriesBtns">Objets</button>
-          <button class="categoriesBtns">Appartements</button>
-          <button class="categoriesBtns">Hotels et restaurants</button>
-        </section>
-        -->
                 <form id="formFilters">
-                    <!--test-->
+                    <!--boutons catégories ajoutés avec JS-->
                 </form>
                 <div class="gallery">
                     <!-- ancienne structure pour works 
@@ -251,9 +235,19 @@
                 <p>Vous avez un projet ? Discutons-en !</p>
                 <form id="test" action="#" method="post">
                     <label for="name">Nom</label>
-                    <input type="text" name="name" id="name" />
+                    <input
+                        type="text"
+                        name="name"
+                        id="name"
+                        autocomplete="username"
+                    />
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email" />
+                    <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        autocomplete="email"
+                    />
                     <label for="message">Message</label>
                     <textarea
                         name="message"
@@ -275,7 +269,5 @@
         </footer>
         <script src="script.js"></script>
         <script src="script-modal.js"></script>
-
-        <!--ajout type="module" (?) apres script et avant src si import fonction-->
     </body>
 </html>
