@@ -55,6 +55,7 @@ async function synchroSuppGallery(btnSuppId, figureToSupp) {
     gallery.removeChild(figureToSupp);
 }
 
+//fonction ouverture de la 1ère vue modale
 async function openModal(event) {
     event.preventDefault();
     const target = document.querySelector(".jsModal");
@@ -79,6 +80,7 @@ function stopPropagation(event) {
     event.stopPropagation();
 }
 
+//fonction fermeture modale
 function closeModal(event) {
     resetForm(event);
     const modal = document.querySelector(".modal");
@@ -89,6 +91,7 @@ function closeModal(event) {
     }
 }
 
+//fonction ouverture 2ème vue modale
 function openSecondPage(event) {
     event.preventDefault();
     console.log(fileUpload);
@@ -99,6 +102,7 @@ function openSecondPage(event) {
     }
 }
 
+//fonction pour retourner à la 1ère vue de la modale (en nettoyant le form)
 function backToFirstPage(event) {
     event.preventDefault();
     resetForm(event);
@@ -109,8 +113,9 @@ function backToFirstPage(event) {
     }
 }
 
+//fonction pour supprimer des travaux
 async function deleteWorks(toto, divImgAndSupp) {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const result = await fetch("http://localhost:5678/api/works/" + toto, {
         method: "DELETE",
         headers: {
@@ -125,6 +130,7 @@ async function deleteWorks(toto, divImgAndSupp) {
     }
 }
 
+//tous les écouteurs d'évènement
 document.addEventListener("DOMContentLoaded", () => {
     const open = document.querySelector(".jsModal");
     const btnQuit = document.querySelectorAll(".btnQuit");
@@ -133,28 +139,33 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnPostPhoto = document.querySelector(".btnPostPhoto");
     const btnGoBack = document.querySelector(".btnGoBack");
     let btnSupp = document.querySelectorAll(".btnSupp");
+    //si btn modifier cliqué, exécuter fonction openModal
     if (open) {
         open.addEventListener("click", openModal);
     }
+    //bouton croix quitter modale
     btnQuit.forEach((btnQuit) => {
         btnQuit.addEventListener("click", closeModal);
     });
     modal.addEventListener("click", closeModal);
     modalWrapper1.addEventListener("click", stopPropagation);
     modalWrapper2.addEventListener("click", stopPropagation);
+    //ouverture de la 2ème vue modale
     if (btnPostPhoto) {
         btnPostPhoto.addEventListener("click", openSecondPage);
     }
+    //bouton flèche retour 1ère vue modale
     if (btnGoBack) {
         btnGoBack.addEventListener("click", backToFirstPage);
     }
+    //ajout d'une photo dans le conteneur du form
     if (fileUpload) {
         fileUpload.addEventListener("change", viewImgSelected);
     }
-    let figureToAdd = null;
-    if (formAddWork) {
+    //let figureToAdd = null;
+    /*if (formAddWork) {
         formAddWork.addEventListener("submit", submitForm);
-    }
+    }*/
     const log = document.getElementById("log");
     window.addEventListener("keydown", (event) => {
         if (event.key === "Escape") {
@@ -162,6 +173,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
+//fonction pour afficher l'image sélectionnée dans le formulaire
 function viewImgSelected(event) {
     let file = event.target.files[0];
     let selectedImg = document.getElementById("customTest");
@@ -190,7 +203,7 @@ function viewImgSelected(event) {
     }
 }
 
-// construction fonction pour nettoyer la div containrer photo quand on quitte la secondemodale
+//fonction pour nettoyer la div container photo quand on quitte la secondemodale
 function resetForm(event) {
     let fileUpload = document.getElementById("fileUpload");
     let addPhotoTitleInput = document.getElementById("addPhotoTitleInput");
@@ -217,63 +230,93 @@ function resetForm(event) {
     }
 }
 
-async function submitForm(event) {
-    event.preventDefault();
-    const token = localStorage.getItem("token");
-    const formAddWork = document.getElementById("formAddWork");
-    let fileUpload = document.getElementById("fileUpload");
-    let file = fileUpload.files[0];
-    let figureToAdd = null;
-    let addPhotoTitleInput = document.getElementById("addPhotoTitleInput");
-    let addPhotoCategoryInput = document.getElementById(
+document.addEventListener("DOMContentLoaded", function () {
+    const btnValider = document.getElementById("btnValider");
+    const fileUpload = document.getElementById("fileUpload");
+    const addPhotoTitleInput = document.getElementById("addPhotoTitleInput");
+    const addPhotoCategoryInput = document.getElementById(
         "addPhotoCategoryInput"
     );
-    const formData = new FormData(formAddWork);
-    console.log(formData.entries());
-    console.log(Array.from(formData.entries()));
+    //fonction pour changer couleur bouton valider
+    function changeBtnColor() {
+        const isFileUploaded = fileUpload.files.length > 0;
+        const isTitleFilled = addPhotoTitleInput.value.length > 0;
+        const isCategorySelected = addPhotoCategoryInput.value !== "";
 
-    try {
-        const result = await fetch("http://localhost:5678/api/works", {
-            method: "POST",
-            headers: {
-                Authorization: "Bearer " + token
-            },
-            body: formData
-        });
-        console.log(formData);
-        //afficher les données du form dans la console
-        for (var key of formData.keys()) {
-            console.log(key);
-        }
-        for (var value of formData.values()) {
-            console.log(value);
-        }
-        if (result.ok) {
-            console.log("tout est ok");
-            const figureToAdd = await result.json();
-            synchroAddGallery(figureToAdd);
-            synchroAddGalleryModal(figureToAdd);
-            backToFirstPage(event);
+        if (isFileUploaded && isTitleFilled && isCategorySelected) {
+            btnValider.classList.add("active");
+            btnValider.classList.remove("inactive");
+            btnValider.removeAttribute("disabled");
         } else {
-            let contentMsgError =
-                "Merci de remplir correctement tous les champs du formulaire avant de valider";
-            let msgError = document.createElement("p");
-            msgError.textContent = contentMsgError;
-            msgError.id = "errorMsgAddPhoto";
-            //Supprimer le message d'erreur précédent s'il existe
-            const existingError = document.getElementById("errorMsgAddPhoto");
-            if (existingError) {
-                formAddWork.removeChild(existingError);
-            }
-            if (!result.ok) {
-                formAddWork.appendChild(msgError);
-            }
+            btnValider.classList.add("inactive");
+            btnValider.classList.remove("active");
+            btnValider.setAttribute("disabled", "true");
         }
-    } catch (error) {
-        console.error("Fetch error:", error);
     }
-}
+    fileUpload.addEventListener("change", changeBtnColor);
+    addPhotoTitleInput.addEventListener("input", changeBtnColor);
+    addPhotoCategoryInput.addEventListener("change", changeBtnColor);
 
+    //fonction pour l'envoi du formulaire
+    document
+        .getElementById("formAddWork")
+        .addEventListener("submit", async function (event) {
+            if (!btnValider.classList.contains("active")) {
+                event.preventDefault();
+                const token = sessionStorage.getItem("token");
+                let fileUpload = document.getElementById("fileUpload");
+                let file = fileUpload.files[0];
+                let figureToAdd = null;
+                const formData = new FormData(formAddWork);
+                try {
+                    const result = await fetch(
+                        "http://localhost:5678/api/works",
+                        {
+                            method: "POST",
+                            headers: {
+                                Authorization: "Bearer " + token
+                            },
+                            body: formData
+                        }
+                    );
+                    if (result.ok) {
+                        const figureToAdd = await result.json();
+                        synchroAddGallery(figureToAdd);
+                        synchroAddGalleryModal(figureToAdd);
+                        backToFirstPage(event);
+                    } else {
+                        let contentMsgError =
+                            "Merci de remplir correctement tous les champs du formulaire avant de valider";
+                        let msgError = document.createElement("p");
+                        msgError.textContent = contentMsgError;
+                        msgError.id = "errorMsgAddPhoto";
+                        //Supprimer le message d'erreur précédent s'il existe
+                        const existingError =
+                            document.getElementById("errorMsgAddPhoto");
+                        if (existingError) {
+                            formAddWork.removeChild(existingError);
+                        }
+                        if (!result.ok) {
+                            formAddWork.appendChild(msgError);
+                        }
+                    }
+                } catch (error) {
+                    console.error("Fetch error:", error);
+                }
+            }
+        });
+});
+
+/*
+                    //afficher les données du form dans la console
+                    for (var key of formData.keys()) {
+                        console.log(key);
+                    }
+                    for (var value of formData.values()) {
+                        console.log(value);
+                    }*/
+
+//fonction synchro ajout photo dans la galerie en arrière-plan de la modale
 async function synchroAddGallery(figureToAdd) {
     let gallery = document.querySelector(".gallery");
     let newFigure = document.createElement("figure");
@@ -288,6 +331,7 @@ async function synchroAddGallery(figureToAdd) {
     gallery.appendChild(newFigure);
 }
 
+//fonction synchro ajout photo dans la galerie de la modale
 async function synchroAddGalleryModal(figureToAdd) {
     let divGalleryModal = document.querySelector(".photosGalleryModal");
     let gallery = document.querySelector(".gallery");
