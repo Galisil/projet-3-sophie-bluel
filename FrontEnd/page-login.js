@@ -1,3 +1,4 @@
+// fonction pour authentifier l'admin
 async function loginAdmin(email, password) {
     const result = await fetch("http://localhost:5678/api/users/login", {
         method: "POST",
@@ -5,10 +6,9 @@ async function loginAdmin(email, password) {
         body: JSON.stringify({ email, password })
     });
     if (result.ok) {
-        console.log("toto");
         let { userId, token } = await result.json();
-        localStorage.setItem("userId", userId);
-        localStorage.setItem("token", token);
+        sessionStorage.setItem("userId", userId);
+        sessionStorage.setItem("token", token);
     } else {
         let contentMsgError =
             "La saisie de l'email ou du mot de passe est incorrecte.";
@@ -20,7 +20,6 @@ async function loginAdmin(email, password) {
         if (existingError) {
             loginForm.removeChild(existingError);
         }
-        // Ajout classe "error-message" pour la suppression future
         msgError.classList.add("error-message");
         loginForm.appendChild(msgError);
         loginForm.querySelector("[name=email]").value = "";
@@ -30,7 +29,7 @@ async function loginAdmin(email, password) {
 }
 function authRedirect() {
     window.location = "./index.html";
-    console.log(localStorage.getItem("userId"));
+    console.log(sessionStorage.getItem("userId"));
 }
 function loginFormSubmit(event) {
     event.preventDefault();
