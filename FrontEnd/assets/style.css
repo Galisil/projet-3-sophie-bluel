@@ -553,10 +553,18 @@ nav a:hover {
     /*cursor: not-allowed;*/
 }
 
+#btnValider:hover {
+    opacity: 1;
+}
+
 #btnValider.active {
     border: 0.1em solid #1d6154;
     background-color: #1d6154;
     cursor: pointer;
+}
+
+#btnValider.active:hover {
+    opacity: 0.5;
 }
 
 /*fin ajout style btns*/
