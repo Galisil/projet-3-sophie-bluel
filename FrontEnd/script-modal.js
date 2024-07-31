@@ -83,6 +83,7 @@ function stopPropagation(event) {
 //fonction fermeture modale
 function closeModal(event) {
     resetForm(event);
+    changeBtnColor(event);
     const modal = document.querySelector(".modal");
     if (event) event.stopPropagation();
     if (modal) {
@@ -106,6 +107,7 @@ function openSecondPage(event) {
 function backToFirstPage(event) {
     event.preventDefault();
     resetForm(event);
+    changeBtnColor(event);
     if (modal) {
         modalWrapper1.setAttribute("aria-modal", "true");
         modalWrapper2.style.display = "none";
@@ -138,7 +140,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const formAddWork = document.getElementById("formAddWork");
     const btnPostPhoto = document.querySelector(".btnPostPhoto");
     const btnGoBack = document.querySelector(".btnGoBack");
-    let btnSupp = document.querySelectorAll(".btnSupp");
+    let btnValider = document.getElementById("btnValider");
+    //let btnSupp = document.querySelectorAll(".btnSupp");
+    const addPhotoTitleInput = document.getElementById("addPhotoTitleInput");
+    const addPhotoCategoryInput = document.getElementById(
+        "addPhotoCategoryInput"
+    );
+    changeBtnColor();
+    fileUpload.addEventListener("change", changeBtnColor);
+    addPhotoTitleInput.addEventListener("input", changeBtnColor);
+    addPhotoCategoryInput.addEventListener("change", changeBtnColor);
+    if (btnValider) {
+        btnValider.addEventListener("click", msgErrorForm);
+        // btnValider.addEventListener("click", changeBtnColor);
+    }
     //si btn modifier cliqué, exécuter fonction openModal
     if (open) {
         open.addEventListener("click", openModal);
@@ -163,9 +178,9 @@ document.addEventListener("DOMContentLoaded", () => {
         fileUpload.addEventListener("change", viewImgSelected);
     }
     //let figureToAdd = null;
-    /*if (formAddWork) {
+    if (formAddWork) {
         formAddWork.addEventListener("submit", submitForm);
-    }*/
+    }
     const log = document.getElementById("log");
     window.addEventListener("keydown", (event) => {
         if (event.key === "Escape") {
@@ -230,7 +245,7 @@ function resetForm(event) {
     }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+function changeBtnColor() {
     const btnValider = document.getElementById("btnValider");
     const fileUpload = document.getElementById("fileUpload");
     const addPhotoTitleInput = document.getElementById("addPhotoTitleInput");
@@ -238,74 +253,105 @@ document.addEventListener("DOMContentLoaded", function () {
         "addPhotoCategoryInput"
     );
     //fonction pour changer couleur bouton valider
-    function changeBtnColor() {
-        const isFileUploaded = fileUpload.files.length > 0;
-        const isTitleFilled = addPhotoTitleInput.value.length > 0;
-        const isCategorySelected = addPhotoCategoryInput.value !== "";
 
-        if (isFileUploaded && isTitleFilled && isCategorySelected) {
-            btnValider.classList.add("active");
-            btnValider.classList.remove("inactive");
-            btnValider.removeAttribute("disabled");
-        } else {
-            btnValider.classList.add("inactive");
-            btnValider.classList.remove("active");
-            btnValider.setAttribute("disabled", "true");
+    const isFileUploaded = fileUpload.files.length > 0;
+    const isTitleFilled = addPhotoTitleInput.value.length > 0;
+    const isCategorySelected = addPhotoCategoryInput.value !== "";
+
+    if (isFileUploaded && isTitleFilled && isCategorySelected) {
+        btnValider.classList.add("active");
+        btnValider.classList.remove("inactive");
+    } else {
+        btnValider.classList.add("inactive");
+        btnValider.classList.remove("active");
+    }
+}
+
+function msgErrorForm() {
+    console.log("coucou");
+    let formAddWork = document.getElementById("formAddWork");
+    let btnValider = document.getElementById("btnValider");
+    console.log(btnValider);
+    if (btnValider.classList.contains("inactive")) {
+        let contentMsgError =
+            "Merci de remplir correctement tous les champs du formulaire avant de valider";
+        let msgError = document.createElement("p");
+        msgError.textContent = contentMsgError;
+        msgError.id = "errorMsgAddPhoto";
+        console.log("coucou");
+        //Supprimer le message d'erreur précédent s'il existe
+        const existingError = document.getElementById("errorMsgAddPhoto");
+        if (existingError) {
+            formAddWork.removeChild(existingError);
+        }
+        formAddWork.appendChild(msgError);
+    }
+}
+
+async function submitForm(event) {
+    event.preventDefault();
+    btnValider = document.getElementById("btnValider");
+    if (btnValider.classList.contains("active")) {
+        const token = sessionStorage.getItem("token");
+        let fileUpload = document.getElementById("fileUpload");
+        let file = fileUpload.files[0];
+        let figureToAdd = null;
+        const formData = new FormData(formAddWork);
+        try {
+            const result = await fetch("http://localhost:5678/api/works", {
+                method: "POST",
+                headers: {
+                    Authorization: "Bearer " + token
+                },
+                body: formData
+            });
+            if (result.ok) {
+                const figureToAdd = await result.json();
+                synchroAddGallery(figureToAdd);
+                synchroAddGalleryModal(figureToAdd);
+                backToFirstPage(event);
+            } else {
+                /*let contentMsgError =
+                    "Merci de remplir correctement tous les champs du formulaire avant de valider";
+                let msgError = document.createElement("p");
+                msgError.textContent = contentMsgError;
+                msgError.id = "errorMsgAddPhoto";
+                //Supprimer le message d'erreur précédent s'il existe
+                const existingError =
+                    document.getElementById("errorMsgAddPhoto");
+                if (existingError) {
+                    formAddWork.removeChild(existingError);
+                }
+                if (!result.ok) {
+                    formAddWork.appendChild(msgError);
+                }*/
+                console.log("erreur lors de l'envoi du formulaire");
+            }
+        } catch (error) {
+            console.error("Fetch error:", error);
         }
     }
+}
+
+/*document.addEventListener("DOMContentLoaded", function () {
+    const btnValider = document.getElementById("btnValider");
+    const fileUpload = document.getElementById("fileUpload");
+    const addPhotoTitleInput = document.getElementById("addPhotoTitleInput");
+    const addPhotoCategoryInput = document.getElementById(
+        "addPhotoCategoryInput"
+    );
+    changeBtnColor();
     fileUpload.addEventListener("change", changeBtnColor);
     addPhotoTitleInput.addEventListener("input", changeBtnColor);
     addPhotoCategoryInput.addEventListener("change", changeBtnColor);
 
     //fonction pour l'envoi du formulaire
-    document
+    /*document
         .getElementById("formAddWork")
-        .addEventListener("submit", async function (event) {
-            if (btnValider.classList.contains("active")) {
-                event.preventDefault();
-                const token = sessionStorage.getItem("token");
-                let fileUpload = document.getElementById("fileUpload");
-                let file = fileUpload.files[0];
-                let figureToAdd = null;
-                const formData = new FormData(formAddWork);
-                try {
-                    const result = await fetch(
-                        "http://localhost:5678/api/works",
-                        {
-                            method: "POST",
-                            headers: {
-                                Authorization: "Bearer " + token
-                            },
-                            body: formData
-                        }
-                    );
-                    if (result.ok) {
-                        const figureToAdd = await result.json();
-                        synchroAddGallery(figureToAdd);
-                        synchroAddGalleryModal(figureToAdd);
-                        backToFirstPage(event);
-                    } else {
-                        let contentMsgError =
-                            "Merci de remplir correctement tous les champs du formulaire avant de valider";
-                        let msgError = document.createElement("p");
-                        msgError.textContent = contentMsgError;
-                        msgError.id = "errorMsgAddPhoto";
-                        //Supprimer le message d'erreur précédent s'il existe
-                        const existingError =
-                            document.getElementById("errorMsgAddPhoto");
-                        if (existingError) {
-                            formAddWork.removeChild(existingError);
-                        }
-                        if (!result.ok) {
-                            formAddWork.appendChild(msgError);
-                        }
-                    }
-                } catch (error) {
-                    console.error("Fetch error:", error);
-                }
-            }
-        });
-});
+        .addEventListener("submit", async function (event) {*/
+
+//});
+//});
 
 /*
                     //afficher les données du form dans la console
