@@ -29,7 +29,6 @@ async function loginAdmin(email, password) {
 }
 function authRedirect() {
     window.location = "./index.html";
-    console.log(sessionStorage.getItem("userId"));
 }
 function loginFormSubmit(event) {
     event.preventDefault();

@@ -116,9 +116,9 @@ function backToFirstPage(event) {
 }
 
 //fonction pour supprimer des travaux
-async function deleteWorks(toto, divImgAndSupp) {
+async function deleteWorks(btnSuppId, divImgAndSupp) {
     const token = sessionStorage.getItem("token");
-    const result = await fetch("http://localhost:5678/api/works/" + toto, {
+    const result = await fetch("http://localhost:5678/api/works/" + btnSuppId, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
@@ -152,7 +152,6 @@ document.addEventListener("DOMContentLoaded", () => {
     addPhotoCategoryInput.addEventListener("change", changeBtnColor);
     if (btnValider) {
         btnValider.addEventListener("click", msgErrorForm);
-        // btnValider.addEventListener("click", changeBtnColor);
     }
     //si btn modifier cliqué, exécuter fonction openModal
     if (open) {
@@ -195,7 +194,6 @@ function viewImgSelected(event) {
     let selectedImg = document.getElementById("customTest");
     const fileUpload = document.getElementById("fileUpload");
     if (file) {
-        console.log("truc ajouté: ", file.name);
         const reader = new FileReader();
         reader.onload = function (event) {
             let containerPhoto = document.querySelector(".containerPhoto");
@@ -245,6 +243,7 @@ function resetForm(event) {
     }
 }
 
+//fonction pour changer couleur bouton valider
 function changeBtnColor() {
     const btnValider = document.getElementById("btnValider");
     const fileUpload = document.getElementById("fileUpload");
@@ -252,8 +251,6 @@ function changeBtnColor() {
     const addPhotoCategoryInput = document.getElementById(
         "addPhotoCategoryInput"
     );
-    //fonction pour changer couleur bouton valider
-
     const isFileUploaded = fileUpload.files.length > 0;
     const isTitleFilled = addPhotoTitleInput.value.length > 0;
     const isCategorySelected = addPhotoCategoryInput.value !== "";
@@ -268,17 +265,14 @@ function changeBtnColor() {
 }
 
 function msgErrorForm() {
-    console.log("coucou");
     let formAddWork = document.getElementById("formAddWork");
     let btnValider = document.getElementById("btnValider");
-    console.log(btnValider);
     if (btnValider.classList.contains("inactive")) {
         let contentMsgError =
             "Merci de remplir correctement tous les champs du formulaire avant de valider";
         let msgError = document.createElement("p");
         msgError.textContent = contentMsgError;
         msgError.id = "errorMsgAddPhoto";
-        console.log("coucou");
         //Supprimer le message d'erreur précédent s'il existe
         const existingError = document.getElementById("errorMsgAddPhoto");
         if (existingError) {
@@ -311,20 +305,6 @@ async function submitForm(event) {
                 synchroAddGalleryModal(figureToAdd);
                 backToFirstPage(event);
             } else {
-                /*let contentMsgError =
-                    "Merci de remplir correctement tous les champs du formulaire avant de valider";
-                let msgError = document.createElement("p");
-                msgError.textContent = contentMsgError;
-                msgError.id = "errorMsgAddPhoto";
-                //Supprimer le message d'erreur précédent s'il existe
-                const existingError =
-                    document.getElementById("errorMsgAddPhoto");
-                if (existingError) {
-                    formAddWork.removeChild(existingError);
-                }
-                if (!result.ok) {
-                    formAddWork.appendChild(msgError);
-                }*/
                 console.log("erreur lors de l'envoi du formulaire");
             }
         } catch (error) {
@@ -332,35 +312,6 @@ async function submitForm(event) {
         }
     }
 }
-
-/*document.addEventListener("DOMContentLoaded", function () {
-    const btnValider = document.getElementById("btnValider");
-    const fileUpload = document.getElementById("fileUpload");
-    const addPhotoTitleInput = document.getElementById("addPhotoTitleInput");
-    const addPhotoCategoryInput = document.getElementById(
-        "addPhotoCategoryInput"
-    );
-    changeBtnColor();
-    fileUpload.addEventListener("change", changeBtnColor);
-    addPhotoTitleInput.addEventListener("input", changeBtnColor);
-    addPhotoCategoryInput.addEventListener("change", changeBtnColor);
-
-    //fonction pour l'envoi du formulaire
-    /*document
-        .getElementById("formAddWork")
-        .addEventListener("submit", async function (event) {*/
-
-//});
-//});
-
-/*
-                    //afficher les données du form dans la console
-                    for (var key of formData.keys()) {
-                        console.log(key);
-                    }
-                    for (var value of formData.values()) {
-                        console.log(value);
-                    }*/
 
 //fonction synchro ajout photo dans la galerie en arrière-plan de la modale
 async function synchroAddGallery(figureToAdd) {
@@ -407,11 +358,3 @@ async function synchroAddGalleryModal(figureToAdd) {
         deleteWorks(btnSupp.id, divImgAndSupp);
     });
 }
-
-/*
-Pour restaurer travaux suprimés dans la base de données (supp travaux dans la modale):
-fermer le terminal Node (ctrl + C)
-ouvrir terminal classique (powershell)
-entrer commande: git status
-entrer commmande: git restore + le nom du fichier modifié (backend, sqlite)
-*/

@@ -23,9 +23,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             btnLoginLogout.href = "./index.html";
             sessionStorage.removeItem("userId");
             sessionStorage.removeItem("token");
-
-            console.log(userId);
-            console.log(token);
             window.location.href = "./index.html";
         } else if (btnLoginLogout.textContent === "login") {
             btnLoginLogout.href = "./page-login.html";
